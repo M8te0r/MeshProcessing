@@ -1,0 +1,3 @@
+[submodule "polyscope"]
+	path = dependencies/polyscope
+	url = https://github.com/nmwsharp/polyscope.git
