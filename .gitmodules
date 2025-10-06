@@ -1,3 +1,15 @@
 [submodule "polyscope"]
 	path = dependencies/polyscope
 	url = https://github.com/nmwsharp/polyscope.git
+
+[submodule "eigen"]
+	path = dependencies/eigen
+	url = https://gitlab.com/libeigen/eigen.git
+
+[submodule "OpenMesh"]
+	path = dependencies/OpenMesh
+	url = https://gitlab.vci.rwth-aachen.de:9000/OpenMesh/OpenMesh.git
+
+[submodule "OpenVolumeMesh"]
+	path = dependencies/OpenVolumeMesh
+	url = https://www.graphics.rwth-aachen.de:9000/OpenVolumeMesh/OpenVolumeMesh.git
