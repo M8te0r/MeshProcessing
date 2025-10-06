@@ -19,9 +19,16 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 # add_subdirectory(deps)
 
 
-
+# dependencies
 
 add_subdirectory(dependencies/polyscope)
+
+add_subdirectory(dependencies/OpenMesh)
+
+add_subdirectory(dependencies/OpenVolumeMesh)
+
+add_subdirectory(dependencies/eigen)
+
 
 
 file(GLOB_RECURSE app_head_files "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h")
@@ -35,6 +42,15 @@ target_include_directories(
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/polyscope/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/gmm-5.4/include
     )
-target_link_libraries(${PROJECT_NAME} polyscope)
+
+target_link_libraries(
+    ${PROJECT_NAME} 
+    PRIVATE 
+    polyscope
+    OpenMeshCore
+    OpenMeshTools
+    OpenVolumeMesh::OpenVolumeMesh
+    Eigen3::Eigen
+)
