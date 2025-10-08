@@ -4,6 +4,12 @@ project(MeshProcessing)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wa,-mbig-obj,-O2")
+
+if(MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
+endif()
+
 
 # output directories
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)
@@ -29,10 +35,12 @@ add_subdirectory(dependencies/OpenVolumeMesh)
 
 add_subdirectory(dependencies/eigen)
 
+add_subdirectory(dependencies/libigl)
+
 
 
 file(GLOB_RECURSE app_head_files "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h")
-file(GLOB_RECURSE app_source_files "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+file(GLOB_RECURSE app_source_files "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc")
 
 add_executable(${PROJECT_NAME} ${app_head_files} ${app_source_files})
 
@@ -40,7 +48,6 @@ add_executable(${PROJECT_NAME} ${app_head_files} ${app_source_files})
 target_include_directories(
     ${PROJECT_NAME} 
     PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/gmm-5.4/include
     )
@@ -53,4 +60,5 @@ target_link_libraries(
     OpenMeshTools
     OpenVolumeMesh::OpenVolumeMesh
     Eigen3::Eigen
+    igl::core
 )

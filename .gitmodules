@@ -6,6 +6,10 @@
 	path = dependencies/eigen
 	url = https://gitlab.com/libeigen/eigen.git
 
+[submodule "libigl"]
+	path = dependencies/libigl
+	url = https://github.com/libigl/libigl.git
+
 [submodule "OpenMesh"]
 	path = dependencies/OpenMesh
 	url = https://gitlab.vci.rwth-aachen.de:9000/OpenMesh/OpenMesh.git

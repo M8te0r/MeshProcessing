@@ -4,3 +4,5 @@
 #include <vector>
 #include <sstream>
 #include <fstream>
+#include <memory>
+#include <algorithm>
