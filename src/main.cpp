@@ -9,51 +9,8 @@
 #include <igl/readMESH.h>
 #include <Eigen/Core>
 
-int main()
+void forTest()
 {
-
-#if 1
-  // 创建一个六面体网格对象
-  auto hex = mesh_processing::MeshCreator<mesh_processing::HexahedralMesh>::CreateMesh();
-  if (!hex->LoadMesh("../assets/sample_volume_mesh.ovm"))
-  {
-    std::cout << "load hex mesh failed!" << std::endl;
-  }
-
-  auto tet = mesh_processing::MeshCreator<mesh_processing::Tetrahedral>::CreateMesh();
-  if (!tet->LoadMesh("../assets/kitten_Tet.mesh"))
-  {
-    std::cout << "load tet mesh failed!" << std::endl;
-  }
-  // polyscope::registerTetMesh("my tet mesh", tet->GetVertices(), tet->GetTetrahedras());
-
-  polyscope::init();
-  polyscope::registerTetMesh("tet_mesh", tet->GetVertices(), tet->GetTetrahedras());
-
-  // Add a scalar quantity
-  size_t nVerts = tet->GetVertices().rows();
-  std::vector<double> scalarV(nVerts);
-  for (size_t i = 0; i < nVerts; i++)
-  {
-    // use the x-coordinate of vertex position as a test function
-    scalarV[i] = tet->GetVertices()(i, 0);
-  }
-
-  polyscope::getVolumeMesh("tet_mesh")->addVertexScalarQuantity("scalar Q", scalarV);
-
-  // Show the GUI
-  polyscope::show();
-
-
-#else
-  // a few options
-  polyscope::options::programName = "important app";
-  polyscope::options::verbosity = 0;
-  polyscope::options::usePrefsFile = false;
-
-  polyscope::options::autocenterStructures = true;
-  polyscope::options::autoscaleStructures = true;
-
   polyscope::init();
 
   // Read mesh from file
@@ -78,7 +35,59 @@ int main()
 
   // Show the GUI
   polyscope::show();
+}
+
+int main()
+{
+
+  // a few options
+  polyscope::options::programName = "important app";
+  polyscope::options::verbosity = 0;
+  polyscope::options::usePrefsFile = false;
+
+  polyscope::options::autocenterStructures = true;
+  polyscope::options::autoscaleStructures = true;
+  polyscope::init();
+
+#if 1
+    auto tet = mesh_processing::MeshCreator<mesh_processing::Tetrahedral>::CreateMesh();
+    if (!tet->LoadMesh("D:/dev_project/MeshProcessing/assets/Kitten_Tet.mesh"))
+    {
+      std::cout << "load tet mesh failed!" << std::endl;
+    }
+    polyscope::registerTetMesh("tet_mesh", tet->GetVertices(), tet->GetTetrahedras());
+    // Add a scalar quantity
+    size_t nVerts = tet->GetVertices().rows();
+    std::vector<double> scalarV(nVerts);
+    for (size_t i = 0; i < nVerts; i++)
+    {
+      // use the x-coordinate of vertex position as a test function
+      scalarV[i] = tet->GetVertices()(i, 0);
+    }
+
+    polyscope::getVolumeMesh("tet_mesh")->addVertexScalarQuantity("scalar Q", scalarV);
+#else
+  auto hex = mesh_processing::MeshCreator<mesh_processing::HexahedralMesh>::CreateMesh();
+  if (!hex->LoadMesh("D:/dev_project/MeshProcessing/assets/polycube_result_1.0_Hex.mesh"))
+  {
+    std::cout << "load hex mesh failed!" << std::endl;
+  }
+
+  polyscope::registerHexMesh("hex_mesh", hex->GetVertices(), hex->GetHexadera());
+
+  // Add a scalar quantity
+  size_t nVerts = hex->GetVertices().rows();
+  std::vector<double> scalarV(nVerts);
+  for (size_t i = 0; i < nVerts; i++)
+  {
+    // use the x-coordinate of vertex position as a test function
+    scalarV[i] = hex->GetVertices()(i, 0);
+  }
+
+  polyscope::getVolumeMesh("hex_mesh")->addVertexScalarQuantity("scalar Q", scalarV);
 #endif
+  // Show the GUI
+  polyscope::show();
 
   return 0;
 }

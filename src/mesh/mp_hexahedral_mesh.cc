@@ -5,10 +5,13 @@
 #include <OpenVolumeMesh/Mesh/HexahedralMesh.hh>
 #include <igl/readMESH.h>
 
+#include "io/mp_io_manager.h"
+#include "utils/mp_utils.h"
+
 namespace mesh_processing
 {
 
-    void HexahedralMesh::BuildMesh()
+    void HexahedralMesh::CreateSampleMesh()
     {
         // Create mesh object
         OpenVolumeMesh::GeometricHexahedralMeshV3f myMesh;
@@ -72,7 +75,80 @@ namespace mesh_processing
 
     bool HexahedralMesh::LoadMesh(const std::string &filename)
     {
-        // TODO:
+
+        std::vector<std::vector<double>> temp_verts;
+        std::vector<std::vector<unsigned int>> temp_polys;
+        std::vector<int> vert_labels;
+        std::vector<int> poly_labels;
+
+        std::string str(filename);
+        std::string filetype = "." + GetFileExtension(str);
+
+        IOManager *io_manager = new IOManager();
+
+        if (filetype.compare(".mesh") == 0 ||
+            filetype.compare(".MESH") == 0)
+        {
+            io_manager->ReadMESH(filename, temp_verts, temp_polys, vert_labels, poly_labels);
+            this->V = Eigen::MatrixXd(temp_verts.size(), 3);
+            for (size_t i = 0; i < temp_verts.size(); i++)
+            {
+                this->V(i, 0) = temp_verts[i][0];
+                this->V(i, 1) = temp_verts[i][1];
+                this->V(i, 2) = temp_verts[i][2];
+            }
+
+            this->H = Eigen::MatrixXi(temp_polys.size(), 8);
+            for (size_t i = 0; i < temp_polys.size(); i++)
+            {
+                if (temp_polys[i].size() != 8)
+                {
+                    std::cerr << "ERROR : " << __FILE__ << ", line " << __LINE__ << " : LoadMesh() : not a hexahedral mesh!" << std::endl;
+                    return 1;
+                }
+                this->H(i, 0) = temp_polys[i][0];
+                this->H(i, 1) = temp_polys[i][1];
+                this->H(i, 2) = temp_polys[i][2];
+                this->H(i, 3) = temp_polys[i][3];
+                this->H(i, 4) = temp_polys[i][4];
+                this->H(i, 5) = temp_polys[i][5];
+                this->H(i, 6) = temp_polys[i][6];
+                this->H(i, 7) = temp_polys[i][7];
+            }
+
+            std::vector<std::vector<double>> vertexPositions(this->V.size(),std::vector<double>(3));
+            for (size_t vid = 0; vid < this->V.size(); ++vid)
+            {
+               vertexPositions[vid].push_back(vert_labels.at(vid));
+            }
+            this->F= Eigen::MatrixXi(vert_labels.size(), 4); // we don't use faces here
+            
+
+
+
+            return 1;
+        }
+        else if (filetype.compare(".ovm") == 0 ||
+                 filetype.compare(".OVM") == 0)
+        {
+            io_manager->ReadOVM(filename, temp_verts, temp_polys, vert_labels, poly_labels);
+            this->LoadOVM(filename);
+        }
+        // else if (filetype.compare(".vtu") == 0 ||
+        //          filetype.compare(".VTU") == 0)
+        // {
+        //     io_manager->ReadVTU(filename, tmp_verts, tmp_polys);
+        // }
+        // else if (filetype.compare(".vtk") == 0 ||
+        //          filetype.compare(".VTK") == 0)
+        // {
+        //     io_manager->->ReadVTK(filename, tmp_verts, tmp_polys);
+        // }
+        else
+        {
+            std::cerr << "ERROR : " << __FILE__ << ", line " << __LINE__ << " : load() : file format not supported yet " << std::endl;
+        }
+
         return 0;
     }
 
