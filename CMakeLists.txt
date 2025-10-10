@@ -39,6 +39,7 @@ add_subdirectory(dependencies/libigl)
 
 
 
+
 file(GLOB_RECURSE app_head_files "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h")
 file(GLOB_RECURSE app_source_files "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc")
 

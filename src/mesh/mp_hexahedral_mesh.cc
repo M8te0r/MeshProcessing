@@ -78,7 +78,7 @@ namespace mesh_processing
 
         std::vector<std::vector<double>> temp_verts;
         std::vector<std::vector<unsigned int>> temp_polys;
-        std::vector<int> vert_labels;
+        std::vector<int> vert_labels;   // store each vertex's face index
         std::vector<int> poly_labels;
 
         std::string str(filename);
@@ -115,16 +115,6 @@ namespace mesh_processing
                 this->H(i, 6) = temp_polys[i][6];
                 this->H(i, 7) = temp_polys[i][7];
             }
-
-            std::vector<std::vector<double>> vertexPositions(this->V.size(),std::vector<double>(3));
-            for (size_t vid = 0; vid < this->V.size(); ++vid)
-            {
-               vertexPositions[vid].push_back(vert_labels.at(vid));
-            }
-            this->F= Eigen::MatrixXi(vert_labels.size(), 4); // we don't use faces here
-            
-
-
 
             return 1;
         }

@@ -352,4 +352,56 @@ namespace mesh_processing
     poly_labels.clear();
   }
 
+  void IOManager::ReadQHEX(const std::string &filename,
+                           std::vector<std::vector<double>> &verts,
+                           std::vector<std::vector<unsigned int>> &hexs)
+  {
+    verts.clear();
+    hexs.clear();
+
+    std::ifstream fin(filename);
+    if (!fin.is_open())
+    {
+      std::cerr << "Failed to open file: " << filename << std::endl;
+      return;
+    }
+
+    std::string line;
+    while (std::getline(fin, line))
+    {
+      // 跳过空行
+      if (line.empty())
+        continue;
+
+      std::istringstream iss(line);
+      std::string keyword;
+      iss >> keyword;
+
+      if (keyword == "Vertex")
+      {
+        unsigned int vid;
+        double x, y, z;
+        iss >> vid >> x >> y >> z;
+
+        // 确保verts大小足够
+        if (verts.size() < vid)
+          verts.resize(vid);
+        verts[vid - 1] = {x, y, z};
+      }
+      else if (keyword == "Hex")
+      {
+        unsigned int hid;
+        std::vector<unsigned int> h(8);
+        iss >> hid;
+        for (int i = 0; i < 8; ++i)
+          iss >> h[i];
+
+        hexs.push_back(h);
+      }
+      // 其他关键字不处理
+    }
+
+    fin.close();
+  }
+
 } // namespace mesh_processing

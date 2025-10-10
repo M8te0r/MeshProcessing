@@ -13,6 +13,7 @@ namespace mesh_processing
     bool eat_int(FILE *f, int &i);
     bool eat_uint(FILE *f, unsigned int &i);
 
+
     // string
     std::string GetFileExtension(const std::string &s);
     std::string GetFilePath(const std::string &s, const bool with_basename = false);

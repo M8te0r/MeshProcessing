@@ -17,3 +17,4 @@
 [submodule "OpenVolumeMesh"]
 	path = dependencies/OpenVolumeMesh
 	url = https://gitlab.vci.rwth-aachen.de:9000/OpenVolumeMesh/OpenVolumeMesh.git
+
