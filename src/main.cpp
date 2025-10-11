@@ -93,7 +93,7 @@ void HexTest()
 void HMeshTest()
 {
   // CMyHMesh mesh;
-  MeshProcessing::CMyHMesh mesh;
+  mesh_processing::CMyHMesh mesh;
   try
   {
     mesh._load_Qhex("D:/dev_project/MeshProcessing/assets/bunny.QHex");
