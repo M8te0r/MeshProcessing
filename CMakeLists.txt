@@ -37,11 +37,13 @@ add_subdirectory(dependencies/eigen)
 
 add_subdirectory(dependencies/libigl)
 
+add_subdirectory(dependencies/TetGen)
+
 
 
 
 file(GLOB_RECURSE app_head_files "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h")
-file(GLOB_RECURSE app_source_files "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc")
+file(GLOB_RECURSE app_source_files "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc" "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cxx")
 
 add_executable(${PROJECT_NAME} ${app_head_files} ${app_source_files})
 
