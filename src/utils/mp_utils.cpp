@@ -89,4 +89,8 @@ namespace mesh_processing
         pos = ss.find_last_of(".");
         return ss.substr(0, pos);
     }
+
+    
+
+
 } // namespace mesh_processing

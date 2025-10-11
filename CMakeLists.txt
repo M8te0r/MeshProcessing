@@ -53,6 +53,7 @@ target_include_directories(
     PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/gmm-5.4/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/dependencies/TetGen
     )
 
 target_link_libraries(
@@ -64,4 +65,5 @@ target_link_libraries(
     OpenVolumeMesh::OpenVolumeMesh
     Eigen3::Eigen
     igl::core
+    tet
 )

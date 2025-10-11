@@ -404,4 +404,8 @@ namespace mesh_processing
     fin.close();
   }
 
+  bool IOManager::Ovm2Vtk(const std::string &ovm_file, const std::string &vtk_file)
+  {
+    
+  }
 } // namespace mesh_processing

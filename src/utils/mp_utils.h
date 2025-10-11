@@ -18,4 +18,6 @@ namespace mesh_processing
     std::string GetFileExtension(const std::string &s);
     std::string GetFilePath(const std::string &s, const bool with_basename = false);
     std::string GetFileName(const std::string &s, const bool with_extension = true);
+
+    
 }

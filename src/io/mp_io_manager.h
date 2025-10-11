@@ -54,5 +54,8 @@ namespace mesh_processing
         void ReadQHEX(const std::string &filename,
                       std::vector<std::vector<double>> &verts,
                       std::vector<std::vector<unsigned int>> &hexs);
+
+        // file format manipulation
+        bool Ovm2Vtk(const std::string &ovm_file, const std::string &vtk_file);
     };
 } // namespace mesh_processing
