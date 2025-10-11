@@ -9,7 +9,7 @@
 #include <igl/readMESH.h>
 #include <Eigen/Core>
 
-#include <mesh/HMesh/HexMesh.h>
+#include "mesh/mp_test_hmesh.h"
 
 void forTest()
 {
@@ -92,11 +92,20 @@ void HexTest()
 
 void HMeshTest()
 {
-
+  // CMyHMesh mesh;
+  MeshProcessing::CMyHMesh mesh;
+  try
+  {
+    mesh._load_Qhex("D:/dev_project/MeshProcessing/assets/bunny.QHex");
+  }
+  catch (...)
+  {
+    std::cout << "load mesh failed!" << std::endl;
+  }
 }
 
 int main()
 {
-
+  HMeshTest();
   return 0;
 }

@@ -105,7 +105,7 @@ namespace HMeshLib{
 		/*! Access the array of half edges */
 		std::list<CHalfEdge*>& half_edges() { return m_pHalfEdges; };
 		/*! Access the array of HEdges */
-		std::list<CHEdge*>& hedges() { return m_pHEdges };
+		std::list<CHEdge*>& hedges() { return m_pHEdges; };
 		/*! Access the array of Hexs */
 		std::list<CHex*>& Hexs() { return m_pHexs; };
 
@@ -298,32 +298,32 @@ namespace HMeshLib{
 	template <typename CHVertex, typename CVertex, typename CHalfEdge, typename CHEdge, typename CEdge, typename CHalfFace, typename CFace, typename CHex>
 	void CHMesh<CHVertex, CVertex, CHalfEdge, CHEdge, CEdge, CHalfFace, CFace, CHex>::_clear()
 	{
-		for (std::list<CEdge*>::iterator eit = m_pEdges.begin(); eit != m_pEdges.end(); eit++)
+		for (typename std::list<CEdge*>::iterator eit = m_pEdges.begin(); eit != m_pEdges.end(); eit++)
 		{
 			CEdge * pE = *eit;
 			delete pE;
 		}
 
-		for (std::list<CHEdge*>::iterator eit = m_pHEdges.begin(); eit != m_pHEdges.end(); eit++)
+		for (typename std::list<CHEdge*>::iterator eit = m_pHEdges.begin(); eit != m_pHEdges.end(); eit++)
 		{
 			CHEdge * pE = *eit;
 			delete pE;
 		}
 
-		for (std::list<CHalfEdge*>::iterator hit = m_pHalfEdges.begin(); hit != m_pHalfEdges.end(); hit++)
+		for (typename std::list<CHalfEdge*>::iterator hit = m_pHalfEdges.begin(); hit != m_pHalfEdges.end(); hit++)
 		{
 			CHalfEdge * pH = *hit;
 			delete pH;
 		}
 
 
-		for (std::list<CFace*>::iterator fit = m_pFaces.begin(); fit != m_pFaces.end(); fit++)
+		for (typename std::list<CFace*>::iterator fit = m_pFaces.begin(); fit != m_pFaces.end(); fit++)
 		{
 			CFace * pF = *fit;
 			delete pF;
 		}
 
-		for (std::list<CHalfFace*>::iterator fit = m_pHalfFaces.begin(); fit != m_pHalfFaces.end(); fit++)
+		for (typename std::list<CHalfFace*>::iterator fit = m_pHalfFaces.begin(); fit != m_pHalfFaces.end(); fit++)
 		{
 			CHalfFace * pF = *fit;
 			delete pF;
@@ -452,7 +452,7 @@ namespace HMeshLib{
 
 		is.close();
 
-		for (std::list<CVertex*>::iterator vIter = m_pVertices.begin(); vIter != m_pVertices.end(); vIter++)
+		for (typename std::list<CVertex*>::iterator vIter = m_pVertices.begin(); vIter != m_pVertices.end(); vIter++)
 		{
 			CVertex * pV = *vIter;
 			if (pV->id() > m_maxVertexId)
@@ -655,7 +655,7 @@ namespace HMeshLib{
 
 		is.close();
 
-		for (std::list<CVertex*>::iterator vIter = m_pVertices.begin(); vIter != m_pVertices.end(); vIter++)
+		for (typename std::list<CVertex*>::iterator vIter = m_pVertices.begin(); vIter != m_pVertices.end(); vIter++)
 		{
 			CVertex * pV = *vIter;
 			if (pV->id() > m_maxVertexId)
@@ -787,7 +787,7 @@ namespace HMeshLib{
 
 
 
-			CHex * pHex = new MyH();
+			CHex * pHex = new CHex();
 			m_pHexs.push_back(pHex);
 			m_map_Hexs.insert(std::pair<int, CHex *>(tid, pHex));
 
@@ -812,7 +812,7 @@ namespace HMeshLib{
 
 		is.close();
 
-		for (std::list<CVertex*>::iterator vIter = m_pVertices.begin(); vIter != m_pVertices.end(); vIter++)
+		for (typename std::list<CVertex*>::iterator vIter = m_pVertices.begin(); vIter != m_pVertices.end(); vIter++)
 		{
 			CVertex * pV = *vIter;
 			if (pV->id() > m_maxVertexId)
@@ -893,7 +893,7 @@ namespace HMeshLib{
 	{
 		CVertex * pV = NULL;
 		
-		for (std::list<CVertex*>::iterator vIter = m_pVertices.begin(); vIter != m_pVertices.end(); vIter++)
+		for (typename std::list<CVertex*>::iterator vIter = m_pVertices.begin(); vIter != m_pVertices.end(); vIter++)
 		{
 			pV = *vIter;
 			
@@ -908,7 +908,7 @@ namespace HMeshLib{
 				f->SetLeft(pF);
 				pF->SetFace(f);
 				
-				for (std::list<CHalfFace*>::iterator it = pL->begin(); it != pL->end(); it++)
+				for (typename std::list<CHalfFace*>::iterator it = pL->begin(); it != pL->end(); it++)
 				{
 					CHalfFace * pH = *it;
 
@@ -942,7 +942,7 @@ namespace HMeshLib{
 	template <typename CHVertex, typename CVertex, typename CHalfEdge, typename CHEdge, typename CEdge, typename CHalfFace, typename CFace, typename CHex>
 	void CHMesh<CHVertex, CVertex, CHalfEdge, CHEdge, CEdge, CHalfFace, CFace, CHex>::_construct_edges()
 	{
-		for (std::list<CVertex*>::iterator vIter = m_pVertices.begin(); vIter != m_pVertices.end(); vIter++)
+		for (typename std::list<CVertex*>::iterator vIter = m_pVertices.begin(); vIter != m_pVertices.end(); vIter++)
 		{
 			CVertex * pV = *vIter;
 			std::list<CHEdge*> * pL = VertexHEdgeList(pV);
@@ -968,7 +968,7 @@ namespace HMeshLib{
 				pTE->SetEdge(e);
 
 				std::list<CHEdge*> tmp_edges;
-				for (std::list<CHEdge*>::iterator it = pL->begin(); it != pL->end(); it++)
+				for (typename std::list<CHEdge*>::iterator it = pL->begin(); it != pL->end(); it++)
 				{
 					CHEdge * pH = *it;
 
@@ -979,7 +979,7 @@ namespace HMeshLib{
 					}
 				}
 
-				for (std::list<CHEdge*>::iterator it = tmp_edges.begin(); it != tmp_edges.end(); it++)
+				for (typename std::list<CHEdge*>::iterator it = tmp_edges.begin(); it != tmp_edges.end(); it++)
 				{
 					CHEdge * pH = *it;
 					pL->remove(pH);
@@ -989,7 +989,7 @@ namespace HMeshLib{
 			}
 
 		}
-		for (std::list<CEdge*>::iterator it = m_pEdges.begin(); it != m_pEdges.end(); it++)
+		for (typename std::list<CEdge*>::iterator it = m_pEdges.begin(); it != m_pEdges.end(); it++)
 		{
 			CEdge * pE = *it;
 			CVertex * v1 = EdgeVertex1(pE);
@@ -1190,10 +1190,10 @@ namespace HMeshLib{
 			
 			
 			//setting parallel hedge
-			for (std::vector<CHEdge*>::iterator ite1 = v_hedge.begin();ite1!=v_hedge.end();ite1++)
+			for (typename std::vector<CHEdge*>::iterator ite1 = v_hedge.begin();ite1!=v_hedge.end();ite1++)
 			{
 				CHEdge* hedge1 = *ite1;
-				for (std::vector<CHEdge*>::iterator ite2 = v_hedge.begin(); ite2 != v_hedge.end(); ite2++)
+				for (typename std::vector<CHEdge*>::iterator ite2 = v_hedge.begin(); ite2 != v_hedge.end(); ite2++)
 				{
 					CHEdge* hedge2 = *ite2;
 					if (hedge1 != hedge2)
@@ -1220,7 +1220,7 @@ namespace HMeshLib{
 		_os << m_nVertices << " vertices" << std::endl;
 		_os << m_nHexs << " Hexs" << std::endl;
 
-		for (std::list<CVertex*>::iterator vIter = m_pVertices.begin(); vIter != m_pVertices.end(); vIter++)
+		for (typename std::list<CVertex*>::iterator vIter = m_pVertices.begin(); vIter != m_pVertices.end(); vIter++)
 		{
 			CVertex * pV = *vIter;
 			CPoint  p = pV->position();
@@ -1250,7 +1250,7 @@ namespace HMeshLib{
 			_os << std::endl;
 		}
 
-		for (std::list<CEdge*>::iterator eIter = m_pEdges.begin(); eIter != m_pEdges.end(); eIter++)
+		for (typename std::list<CEdge*>::iterator eIter = m_pEdges.begin(); eIter != m_pEdges.end(); eIter++)
 		{
 			CEdge * pE = *eIter;
 			if (pE->string().size() > 0)
@@ -1267,19 +1267,19 @@ namespace HMeshLib{
 	void CHMesh<CHVertex, CVertex, CHalfEdge, CHEdge, CEdge, CHalfFace, CFace, CHex>::_write_Qhex(const char * output)
 	{
 		//write traits to string, add by Wei Chen, 11/23/2015
-		for (std::list<CVertex*>::iterator vIter = m_pVertices.begin(); vIter != m_pVertices.end(); vIter++)
+		for (typename std::list<CVertex*>::iterator vIter = m_pVertices.begin(); vIter != m_pVertices.end(); vIter++)
 		{
 			CVertex * pV = *vIter;
 			pV->_to_string();
 		}
 
-		for (std::list<CHex *>::iterator tIter = m_pHexs.begin(); tIter != m_pHexs.end(); tIter++)
+		for (typename std::list<CHex *>::iterator tIter = m_pHexs.begin(); tIter != m_pHexs.end(); tIter++)
 		{
 			CHex * pT = *tIter;
 			pT->_to_string();
 		}
 
-		for (std::list<CEdge*>::iterator eIter = m_pEdges.begin(); eIter != m_pEdges.end(); eIter++)
+		for (typename std::list<CEdge*>::iterator eIter = m_pEdges.begin(); eIter != m_pEdges.end(); eIter++)
 		{
 			CEdge * pE = *eIter;
 			pE->_to_string();
@@ -1293,7 +1293,7 @@ namespace HMeshLib{
 			return;
 		}
 
-		for (std::list<CVertex*>::iterator vIter = m_pVertices.begin(); vIter != m_pVertices.end(); vIter++)
+		for (typename std::list<CVertex*>::iterator vIter = m_pVertices.begin(); vIter != m_pVertices.end(); vIter++)
 		{
 			CVertex * pV = *vIter;
 			CPoint p = pV->position();
@@ -1309,7 +1309,7 @@ namespace HMeshLib{
 			_os << std::endl;
 		}
 
-		for (std::list<CHex *>::iterator tIter = m_pHexs.begin(); tIter != m_pHexs.end(); tIter++)
+		for (typename std::list<CHex *>::iterator tIter = m_pHexs.begin(); tIter != m_pHexs.end(); tIter++)
 		{
 			CHex * pT = *tIter;
 			_os << "Hex " << pT->id();
@@ -1324,7 +1324,7 @@ namespace HMeshLib{
 			_os << std::endl;
 		}
 
-		/*for (std::list<CEdge*>::iterator eIter = m_pEdges.begin(); eIter != m_pEdges.end(); eIter++)
+		/*for (typename std::list<CEdge*>::iterator eIter = m_pEdges.begin(); eIter != m_pEdges.end(); eIter++)
 		{
 			CEdge * pE = *eIter;
 			if (pE->string().size() > 0)
@@ -1388,7 +1388,7 @@ namespace HMeshLib{
 	{
 		std::list<CEdge*> * vEdgeList = VertexEdgeList(v1);
 
-		for (std::list<CEdge*>::iterator titer = (*vEdgeList).begin(); titer != (*vEdgeList).end(); titer++)
+		for (typename std::list<CEdge*>::iterator titer = (*vEdgeList).begin(); titer != (*vEdgeList).end(); titer++)
 		{
 			CEdge * pE = *titer;
 
@@ -1601,7 +1601,7 @@ namespace HMeshLib{
 	template <typename CHVertex, typename CVertex, typename CHalfEdge, typename CHEdge, typename CEdge, typename CHalfFace, typename CFace, typename CHex>
 	int CHMesh<CHVertex, CVertex, CHalfEdge, CHEdge, CEdge, CHalfFace, CFace, CHex>::maxVertexId()
 	{
-		std::list<CVertex*>::iterator vite = m_pVertices.begin();
+		typename std::list<CVertex*>::iterator vite = m_pVertices.begin();
 		for (vite; vite!= m_pVertices.end(); vite++)
 		{
 			CVertex* v = *vite;
@@ -1614,4 +1614,4 @@ namespace HMeshLib{
 	}
 }
 
-#endif _HMESHLIB_BASE_HEX_MESH_H_
+#endif //_HMESHLIB_BASE_HEX_MESH_H_
