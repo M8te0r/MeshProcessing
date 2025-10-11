@@ -8,10 +8,10 @@
 #include "mesh/HMesh/HexMesh/basehmesh.h"
 #include "mesh/HMesh/HexMesh/hiterators.h"
 
-namespace MeshProcessing
+namespace mesh_processing
 {
 
-    
+
 
     template <typename HexV, typename V, typename HE, typename HexE, typename E, typename HF, typename F, typename Hex>
     class MyMesh : public HMeshLib::CHMesh<HexV, V, HE, HexE, E, HF, F, Hex>
