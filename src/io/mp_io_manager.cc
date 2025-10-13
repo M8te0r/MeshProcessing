@@ -6,6 +6,7 @@
 #include <unordered_set>
 
 #include "utils/mp_utils.h"
+#include "mp_vtk_io.h"
 
 namespace mesh_processing
 {
@@ -340,17 +341,6 @@ namespace mesh_processing
     }
   }
 
-  void IOManager::ReadOVM(const std::string &filename,
-                          std::vector<std::vector<double>> &verts,
-                          std::vector<std::vector<unsigned int>> &polys,
-                          std::vector<int> &vert_labels,
-                          std::vector<int> &poly_labels)
-  {
-    verts.clear();
-    polys.clear();
-    vert_labels.clear();
-    poly_labels.clear();
-  }
 
   void IOManager::ReadQHEX(const std::string &filename,
                            std::vector<std::vector<double>> &verts,
@@ -404,8 +394,8 @@ namespace mesh_processing
     fin.close();
   }
 
+
   bool IOManager::Ovm2Vtk(const std::string &ovm_file, const std::string &vtk_file)
   {
-    
   }
 } // namespace mesh_processing

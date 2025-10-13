@@ -13,11 +13,16 @@ namespace mesh_processing
     bool eat_int(FILE *f, int &i);
     bool eat_uint(FILE *f, unsigned int &i);
 
+    bool TrimSpaceHeadAndTail(std::string &str);
+    bool TrimComment(std::string &str, const std::string &commentMark = "#");
+    bool TrimLine(std::string &str);
+    bool ReadNextTrimLine(std::ifstream &file, std::string &line);
+
+
 
     // string
     std::string GetFileExtension(const std::string &s);
     std::string GetFilePath(const std::string &s, const bool with_basename = false);
     std::string GetFileName(const std::string &s, const bool with_extension = true);
 
-    
 }

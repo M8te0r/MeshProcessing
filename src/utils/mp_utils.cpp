@@ -1,5 +1,8 @@
 #include "utils/mp_utils.h"
 #include <cstring>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 
 namespace mesh_processing
 {
@@ -62,6 +65,46 @@ namespace mesh_processing
         return true;
     }
 
+    bool TrimSpaceHeadAndTail(std::string &str)
+    {
+        size_t start = str.find_first_not_of(" \t\r\n");
+        if (start == std::string::npos)
+        {
+            str.clear();
+            return false;
+        }
+
+        size_t end = str.find_last_not_of(" \t\r\n");
+        str = str.substr(start, end - start + 1);
+        return !str.empty();
+    }
+
+    bool TrimComment(std::string &str, const std::string &commentMark)
+    {
+        // 找到注释符出现的位置
+        size_t pos = str.find(commentMark);
+        if (pos != std::string::npos)
+            str = str.substr(0, pos);
+        return !str.empty();
+    }
+
+    bool TrimLine(std::string &str)
+    {
+        TrimComment(str,"#");
+        return TrimSpaceHeadAndTail(str);
+    }
+
+    bool ReadNextTrimLine(std::ifstream &file, std::string &line)
+    {
+        while (std::getline(file, line))
+        {
+            if (TrimLine(line))
+                return true;
+        }
+        return false;
+    }
+
+
     std::string GetFileExtension(const std::string &s)
     {
         size_t pos = s.find_last_of(".");
@@ -89,8 +132,5 @@ namespace mesh_processing
         pos = ss.find_last_of(".");
         return ss.substr(0, pos);
     }
-
-    
-
 
 } // namespace mesh_processing

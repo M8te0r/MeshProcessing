@@ -45,11 +45,6 @@ namespace mesh_processing
                       std::vector<int> &vert_labels,
                       std::vector<int> &poly_labels);
 
-        void ReadOVM(const std::string &filename,
-                     std::vector<std::vector<double>> &verts,
-                     std::vector<std::vector<unsigned int>> &polys,
-                     std::vector<int> &vert_labels,
-                     std::vector<int> &poly_labels);
 
         void ReadQHEX(const std::string &filename,
                       std::vector<std::vector<double>> &verts,

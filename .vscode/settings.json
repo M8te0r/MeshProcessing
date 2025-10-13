@@ -85,6 +85,7 @@
         "alignedvector3": "cpp",
         "fft": "cpp",
         "cfenv": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "core": "cpp"
     }
 }

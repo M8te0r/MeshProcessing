@@ -10,6 +10,8 @@
 #include <Eigen/Core>
 
 #include "mesh/mp_test_hmesh.h"
+#include "io/mp_vtk_io.h"
+#include "io/mp_ovm_io.h"
 
 void forTest()
 {
@@ -41,6 +43,8 @@ void forTest()
 
 void TetTest()
 {
+  std::string filename="D:/dev_project/SingularityConstrainedOctahedralFields/demo/scof/ellipsoid.ovm";
+  
   polyscope::init();
 
   auto tet = mesh_processing::MeshCreator<mesh_processing::Tetrahedral>::CreateMesh();
@@ -104,8 +108,73 @@ void HMeshTest()
   }
 }
 
+void VTKTest()
+{
+  std::string filename1="D:/dev_project/MeshProcessing/assets/Ankle_1.vtk";
+  std::vector<std::vector<double>> vertices;
+  std::vector<std::vector<size_t>> cells;
+  std::vector<int> cell_types;
+
+  if (!mesh_processing::ReadVTK(filename1, vertices, cells, cell_types))
+    return;
+
+  bool all_hex = std::all_of(cell_types.begin(), cell_types.end(), [](int x)
+                             { return x == 12; });
+  if (all_hex)
+    std::cout << "all hex!" << std::endl;
+  else
+    std::cout << "not all hex!" << std::endl;
+
+  polyscope::init();
+  polyscope::registerHexMesh("hex_mesh", vertices, cells);
+
+  // Add a scalar quantity
+  size_t nVerts = vertices.size();
+  std::vector<double> scalarV(nVerts);
+  for (size_t i = 0; i < nVerts; i++)
+  {
+    // use the x-coordinate of vertex position as a test function
+    scalarV[i] = vertices[i][0];
+  }
+
+  polyscope::getVolumeMesh("hex_mesh")->addVertexScalarQuantity("scalar Q", scalarV);
+  // Show the GUI
+  polyscope::show();
+}
+
+void OVMTest(){
+  std::string filename2="D:/dev_project/SingularityConstrainedOctahedralFields/build/Build/test.ovm";
+  std::string filename1="D:/dev_project/MeshProcessing/assets/sample_volume_mesh.ovm";
+  std::vector<std::vector<double>> vertices;
+  std::vector<std::vector<size_t>> cells;
+
+  if (!mesh_processing::ReadOVM(filename2, vertices, cells))
+    return;
+
+  polyscope::init();
+  polyscope::registerTetMesh("tet_mesh", vertices, cells);
+
+  // Add a scalar quantity
+  size_t nVerts = vertices.size();
+  std::vector<double> scalarV(nVerts);
+  for (size_t i = 0; i < nVerts; i++)
+  {
+    // use the x-coordinate of vertex position as a test function
+    scalarV[i] = vertices[i][0];
+  }
+
+  polyscope::getVolumeMesh("tet_mesh")->addVertexScalarQuantity("scalar Q", scalarV);
+
+  // Show the GUI
+  polyscope::show();
+}
+
 int main()
 {
-  HMeshTest();
+  //TetTest();
+  // HMeshTest();
+
+  //VTKTest();
+  OVMTest();
   return 0;
 }

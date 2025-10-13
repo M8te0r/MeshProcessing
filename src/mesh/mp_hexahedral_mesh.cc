@@ -121,8 +121,9 @@ namespace mesh_processing
         else if (filetype.compare(".ovm") == 0 ||
                  filetype.compare(".OVM") == 0)
         {
-            io_manager->ReadOVM(filename, temp_verts, temp_polys, vert_labels, poly_labels);
-            this->LoadOVM(filename);
+
+            //io_manager->ReadOVM(filename, temp_verts, temp_polys, vert_labels, poly_labels);
+            //this->LoadOVM(filename);
         }
         // else if (filetype.compare(".vtu") == 0 ||
         //          filetype.compare(".VTU") == 0)
