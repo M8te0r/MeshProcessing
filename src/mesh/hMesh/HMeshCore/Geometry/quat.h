@@ -79,15 +79,15 @@ public:
   CQrot& operator^(double p)
  {
   normalize();
-  double theta = 2 * acos( m_w );
+  double theta = 2 * std::acos( m_w );
   if( theta < 1e-10 ) return (*this); 
 
   CPoint axis( m_x,m_y,m_z );
   axis /= axis.norm();
 
   theta *= p;
-  m_w   = cos( theta * 0.5 );
-  axis *= sin( theta * 0.5 );
+  m_w   = std::cos( theta * 0.5 );
+  axis *= std::sin( theta * 0.5 );
 
   m_x = axis[0];
   m_y = axis[1];
@@ -170,7 +170,7 @@ public:
         return;
     }
 
-    l = sqrt(l);
+    l = std::sqrt(l);
 
     m_w /= l;
     m_x /= l;
@@ -229,14 +229,14 @@ inline CQrot operator^(const CQrot & r, double p)
 {
   CQrot q = r;
   q.normalize();
-  double theta = 2 * acos( q.m_w );
+  double theta = 2 * std::acos( q.m_w );
   if( theta < 1e-10 ) return q; 
 
   CPoint axis( q.m_x, q.m_y, q.m_z );
   axis /= axis.norm();
   theta *= p;
-  q.m_w   = cos( theta * 0.5 );
-  axis *= sin( theta * 0.5 );
+  q.m_w   = std::cos( theta * 0.5 );
+  axis *= std::sin( theta * 0.5 );
 
   q.m_x = axis[0];
   q.m_y = axis[1];

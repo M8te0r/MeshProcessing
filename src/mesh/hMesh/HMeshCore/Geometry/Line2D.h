@@ -8,7 +8,7 @@
 
 #ifndef _HMESHLIB_LINE_2D_H_
 #define _HMESHLIB_LINE_2D_H_
-
+#include "Point2.h"
 
 namespace HMeshLib{
 

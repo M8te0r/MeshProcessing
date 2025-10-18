@@ -20,7 +20,7 @@
 #include "face.h"
 #include "halfface.h"
 #include "hex.h"
-#include "BasehMesh.h"
+#include "basehMesh.h"
 
 namespace HMeshLib
 {

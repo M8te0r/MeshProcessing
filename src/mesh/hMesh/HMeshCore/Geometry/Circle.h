@@ -8,7 +8,7 @@
 
 #ifndef _HMESHLIB_CIRCLE_H_
 #define _HMESHLIB_CIRCLE_H_
-
+#include "Point2.h"
 
 namespace HMeshLib{
 

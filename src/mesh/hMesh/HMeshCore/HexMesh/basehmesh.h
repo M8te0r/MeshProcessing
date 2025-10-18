@@ -24,7 +24,7 @@
 
 #include "../Geometry/Point.h"
 #include "../Geometry/Point2.h"
-#include "../Parser/StrUtil.h"
+#include "../Parser/strutil.h"
 
 #ifndef MAX_LINE 
 #define MAX_LINE 2048

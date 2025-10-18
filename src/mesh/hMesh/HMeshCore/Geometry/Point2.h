@@ -72,7 +72,7 @@ class CPoint2
 	/*! The norm of CPoint2 \f$\sqrt{x^2+y^2}\f$
 	 *
 	 */
-	double norm() { return sqrt( m_c[0] * m_c[0] + m_c[1] * m_c[1] ); };
+	double norm() { return std::sqrt( m_c[0] * m_c[0] + m_c[1] * m_c[1] ); };
 
 	/*! The square norm of CPoint2 \f$x^2+y^2\f$
 	 *
@@ -201,7 +201,7 @@ inline double mag2(  CPoint2 & uv )
  */
 inline double mag(  CPoint2 & uv )
 {
-	return sqrt(uv[0] * uv[0] + uv[1] * uv[1]);
+	return std::sqrt(uv[0] * uv[0] + uv[1] * uv[1]);
 };
 
 /*!

@@ -61,7 +61,7 @@ public:
 	/*!
 	 *	norm of the CPoint \f$\sqrt{x^2+y^2+z^2}\f$
 	 */
-	double norm() const { return sqrt( fabs( v[0] * v[0] + v[1] * v[1] + v[2] * v[2] ) ); };
+	double norm() const { return std::sqrt( std::fabs( v[0] * v[0] + v[1] * v[1] + v[2] * v[2] ) ); };
 
 	/*!
 	 * Add another point to the current point

@@ -1,7 +1,7 @@
 #ifndef _HEX_MESH_EDITOR_
 #define _HEX_MESH_EDITOR_
 
-#include"basehmesh.h"
+#include "basehmesh.h"
 
 namespace HMeshLib
 {
@@ -43,27 +43,27 @@ namespace HMeshLib
 	void HexMeshEditor<typename HM>:: changeVertex(Hex* hex, V* v,V* changeV)
 	{
 		/*
-		* ÐèÒªÐÞ¸ÄµÄÄÚÈÝ£º
-		*	´´½¨Ò»¸öÐÂµÄµã
-		*	ÕÒµ½ËùÓÐ¾ÉµÄµã¹ØÁªµÄhex
-		*		HexÄÚÐÞ¸ÄÄÚÈÝËùÓÐ¹ØÁª°ë±ßµÄµã
-		*		ÐÞ¸ÄvertexÖÐËùÓÐµÄHverticesºÍ edges
-		*		ÐÞ¸ÄËùÓÐµÄ¹ØÁªµÄ±ßµÄÖµ
+		* ï¿½ï¿½Òªï¿½Þ¸Äµï¿½ï¿½ï¿½ï¿½Ý£ï¿½
+		*	ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ÂµÄµï¿½
+		*	ï¿½Òµï¿½ï¿½ï¿½ï¿½Ð¾ÉµÄµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hex
+		*		Hexï¿½ï¿½ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¹ï¿½ï¿½ï¿½ï¿½ï¿½ßµÄµï¿½
+		*		ï¿½Þ¸ï¿½vertexï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½Hverticesï¿½ï¿½ edges
+		*		ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½ÐµÄ¹ï¿½ï¿½ï¿½ï¿½Ä±ßµï¿½Öµ
 		*		
-		*		ÐÞ¸ÄËùÓÐ¹ØÁªµÄHVertex
-		*	É¾³ý¾Éµã	
+		*		ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½Ð¹ï¿½ï¿½ï¿½ï¿½ï¿½HVertex
+		*	É¾ï¿½ï¿½ï¿½Éµï¿½	
 		*/
 		//construct a new vertex
 
-		//Èç¹ûÖ»ÐÞ¸ÄÎ»ÖÃ£¬²»ÐÞ¸ÄÁ¬½Ó¹ØÏµµÄ»°£¬Ö»ÐÞ¸Ä×ø±ê¼´¿É
+		//ï¿½ï¿½ï¿½Ö»ï¿½Þ¸ï¿½Î»ï¿½Ã£ï¿½ï¿½ï¿½ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½Ó¹ï¿½Ïµï¿½Ä»ï¿½ï¿½ï¿½Ö»ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½ê¼´ï¿½ï¿½
 	}
 	template<typename HM>
 	void HexMeshEditor<typename HM>::separateFace(F* f)
 	{
-		/**½«Ò»¸öÃæ·ÖÀëÎªÁ½¸öÃæ*/
+		/**ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
 		/*
-		* ½«Ò»¸öÃæ·ÖÀëÎªÁ½¸öÃæ£¬²¢²åÈëÒ»¸öÁùÃæÌå
-		*	¸´ÖÆÃæÉÏµÄËÄ¸öµã£¬½«ÃæÉÏµãµÄ×óÓÒÁ½±ß¹ØÏµ¶¼·Ö±ð¸³Öµ¸øÁ½±ß¡£
+		* ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½æ£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½Ä¸ï¿½ï¿½ã£¬ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¹ï¿½Ïµï¿½ï¿½ï¿½Ö±ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ß¡ï¿½
 		*	
 		*/
 		

@@ -25,7 +25,7 @@ namespace mesh_processing
         // Now myMesh contains the mesh specified in file "myMesh.ovm"
 
         verts.reserve(myMesh.n_vertices());
-        int test_c_count=myMesh.n_cells();
+        int test_c_count = myMesh.n_cells();
         polys.reserve(myMesh.n_cells());
 
         for (const auto &v_handle : myMesh.vertices())
@@ -58,4 +58,46 @@ namespace mesh_processing
 
         return true;
     }
+
+    bool WriteOVM(const std::string &filename,
+                  const std::vector<std::vector<double>> &verts,
+                  const std::vector<std::vector<size_t>> &polys)
+    {
+        std::ofstream file(filename);
+        if (!file.is_open())
+        {
+            std::cerr << "[Error] Could not open file for writing: " << filename << "\n";
+            return false;
+        }
+
+        file.imbue(std::locale::classic());
+
+        // Write header
+        file << "OVM ASCII" << std::endl;
+
+        uint64_t n_vertices(verts.size());
+        file << "Vertices" << std::endl;
+        file << n_vertices << std::endl;
+
+        for (const auto &v : verts)
+        {
+            file << v[0] << " " << v[1] << " " << v[2] << std::endl;
+        }
+
+        uint64_t n_cells(polys.size());
+        file << "Polyhedra" << std::endl;
+        file << n_cells << std::endl;
+
+        for (const auto &c : polys)
+        {
+            file << static_cast<uint64_t>(c.size()) << " ";
+            for (const auto &cv : c)
+            {
+                file << cv;
+                // if ((*cv + 1) != halffaces.end())
+                //     file << " ";
+            }
+        }
+    }
+
 } // namespace mesh_processing
