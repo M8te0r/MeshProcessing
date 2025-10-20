@@ -1,5 +1,10 @@
 #pragma once
 #include "utils/mp_utils.h"
+
+#include "io/mp_mesh_io.h"
+#include "io/mp_vtk_io.h"
+#include "io/mp_ovm_io.h"
+#include "io/mp_obj_io.h"
 #include <unordered_set>
 namespace mesh_processing
 {
@@ -19,7 +24,7 @@ namespace mesh_processing
         }
         else if (filetype.compare(".vtk") == 0 || filetype.compare(".VTK") == 0)
         {
-            code = ReadVTK(filename, m_file_vertices, m_file_cells, cell_types);
+            code = ReadVTK2(filename, m_file_vertices, m_file_cells, cell_types);
         }
         else if (filetype.compare(".ovm") == 0 || filetype.compare(".OVM") == 0)
         {
@@ -71,47 +76,85 @@ namespace mesh_processing
                     this->m_maxVertexId = pV->id();
                 }
             }
+            return true;
         }
         return false;
     }
 
+
+
     template <typename HexV, typename V, typename HE, typename HexE, typename E, typename HF, typename F, typename Hex>
-    bool MyMesh<HexV, V, HE, HexE, E, HF, F, Hex>::ExportQuadrilaterals(const char *filename) const
+    bool MyMesh<HexV, V, HE, HexE, E, HF, F, Hex>::ExportQuadrilaterals(const char *filename)
     {
-        std::vector<std::vector<size_t>> expo_faces;
-        std::vector<std::vector<double>> expo_vertices;
-        std::vector<size_t> unique_boundary_vertices; 
+        std::vector<std::vector<size_t>> boundary_faces;
+        std::vector<size_t> unique_boundary_vertices;
         std::unordered_set<size_t> marks;
+        boundary_faces.reserve(this->m_pHalfFaces.size());
 
-
-        for (const auto &hf : this->m_pHalfFaces)
+        // 1. 收集边界面和顶点
+        for (auto hf : this->m_pHalfFaces)
         {
             if (hf->face()->boundary())
             {
                 // 获取边界面
-                std::vector<size_t> vIndices = hf->GetVertexIndices();
-                expo_faces.push_back(vIndices);
+                std::vector<size_t> vIndices;
+                vIndices.reserve(4);
+                // 遍历面上的每个half-edge，获得有顺序的顶点
+                auto phe = this->HalfFaceHalfEdge(hf);
+                for (int k = 0; k < 4; k++)
+                {
+                    vIndices.push_back(this->HalfEdgeTarget(phe)->id());
+                    phe = this->HalfEdgeNext(phe);
+                }
+                
+                boundary_faces.push_back(vIndices);
 
                 // 获取边界顶点
-                for(const auto& idx:vIndices){
-                    if(marks.find(idx)==mars.end()){
+                for (auto idx : vIndices)
+                {
+                    if (marks.find(idx) == marks.end())
+                    {
                         marks.insert(idx);
-                        unique_boundary_vertices.insert(idx);
+                        unique_boundary_vertices.push_back(idx);
                     }
                 }
             }
         }
 
-        expo_vertices;
-        for(size_t expo_index=0;expo_index<unique_boundary_vertices.size();++expo_index){
-
+        // 2. 构建旧索引 -> 新索引的映射
+        std::unordered_map<size_t, size_t> old_to_new;
+        old_to_new.reserve(unique_boundary_vertices.size());
+        for (size_t new_idx = 0; new_idx < unique_boundary_vertices.size(); ++new_idx)
+        {
+            old_to_new[unique_boundary_vertices[new_idx]] = new_idx;
         }
-        for(const auto&v:unique_boundary_vertices){
-            std::vector<double> coord={this->idVertex(v)[0],this->idVertex(v)[1],this->idVertex(v)[2]};
 
+        std::vector<std::vector<double>> vertices_coords;
+        vertices_coords.reserve(unique_boundary_vertices.size());
+        for (auto old_idx : unique_boundary_vertices)
+        {
+            // const auto &p = m_vertices[old_idx];  // 这里假设 m_vertices 存储原始坐标
+            auto p = this->idVertex(static_cast<int>(old_idx))->position(); // 获取每个CPoint
+            std::vector<double> tem_point={p[0],p[1],p[2]};
+            vertices_coords.push_back(std::move(tem_point));
         }
 
-        return true;
+        // 3. 重新映射边界面索引
+        std::vector<std::vector<size_t>> remapped_faces;
+        remapped_faces.reserve(boundary_faces.size());
+        for (const auto &face : boundary_faces)
+        {
+            std::vector<size_t> new_face;
+            new_face.reserve(face.size());
+            for (auto old_idx : face)
+            {
+                new_face.push_back(old_to_new[old_idx]);
+            }
+            remapped_faces.push_back(new_face);
+        }
+
+        // 4. 写文件
+        return WriteOBJ(filename, vertices_coords, remapped_faces);
     }
 
 } // namespace mesh_processing

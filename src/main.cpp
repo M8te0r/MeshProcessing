@@ -39,7 +39,6 @@ void forTest()
   polyscope::show();
 }
 
-
 void HMeshTest()
 {
   // CMyHMesh mesh;
@@ -51,7 +50,7 @@ void HMeshTest()
     hmesh->ReadMesh("D:/dev_project/MeshProcessing/assets/Ankle_1.vtk");
     // mesh._load_Qhex("D:/dev_project/MeshProcessing/assets/bunny.QHex");
     // mesh->c_hmesh.ReadMesh("D:/dev_project/MeshProcessing/assets/Ankle_1.vtk");
-    hmesh->ExportQuadrilaterals("1");
+    hmesh->ExportQuadrilaterals("D:/dev_project/MeshProcessing/assets/Ankle_1_output.obj");
   }
   catch (...)
   {
@@ -121,24 +120,55 @@ void OVMTest()
   polyscope::show();
 }
 
-void printUsage(const std::string& progname)
+void printUsage(const std::string &progname)
 {
-  std::cout << "usage: " << progname << " mesh.vtk quadrilaterals.txt" << std::endl
+  std::cout << "usage: " << progname << " mesh.vtk quadrilaterals.obj" << std::endl
+            << "notice: support only .obj file exporting" << std::endl
             << std::endl;
 }
 
 int main(int argc, char *argv[])
 {
-  // if (argc != 3)
-  // {
-  //   printUsage(argv[0]);
-  //   return 0;
-  // }
+#if 1
+
+  if (argc != 3)
+  {
+    printUsage(argv[0]);
+    return 0;
+  }
+
+  auto hmesh = mesh_processing::MeshCreator<mesh_processing::CMyHMesh>::CreateMesh();
+  if (!hmesh->ReadMesh(argv[1]))
+  {
+    std::cerr << "[ERROR] Read mesh failed!\n";
+  }
+
+  if (!hmesh->ExportQuadrilaterals(argv[2]))
+  {
+    std::cerr << "[ERROR] export failed!\n";
+  }
+
+  std::cout << "[Info] export success!\n";
+  return 0;
+
+#else
+
+  std::string fn_in = "D:/dev_project/MeshProcessing/assets/bpgc.vtk";
+  std::string fn_out = "D:/dev_project/MeshProcessing/assets/bpgc_output.obj";
+  auto hmesh = mesh_processing::MeshCreator<mesh_processing::CMyHMesh>::CreateMesh();
+  if (hmesh->ReadMesh(fn_in.c_str()))
+  {
+    hmesh->ExportQuadrilaterals(fn_out.c_str());
+    std::cout << "\n[Info] export success!\n";
+    return 0;
+  }
 
   // TetTest();
-  HMeshTest();
+  // HMeshTest();
 
   // VTKTest();
   // OVMTest();
+  std::cerr << "[ERROR] export failed!\n";
   return 0;
+#endif
 }
